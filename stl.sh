@@ -38,9 +38,10 @@ Host ssl1
     HostName 127.0.0.1
     Port 69
     User $user" > ~/.ssh/config
+route="$(route -n | grep -i 0.0.0.0 | head -n1 | awk '{print $2}')" 
 ip tuntap add dev tun0 mode tun
 ifconfig tun0 10.0.0.1 netmask 255.255.255.0 up
-route add $host gw 192.168.8.1 metric 4
+route add $host gw $route metric 4
 route add default gw 10.0.0.2 metric 6
 echo "Sett Profile Sukses"
 sleep 0.8
