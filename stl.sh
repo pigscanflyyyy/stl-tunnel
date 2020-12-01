@@ -1,5 +1,6 @@
 #!/bin/bash
 #stl (Wegare)
+clear
 echo "Inject SSL by wegare"
 echo "1. Sett Profile"
 echo "2. Start Inject"
@@ -13,8 +14,6 @@ if [ "$tools" = "1" ]; then
 mkdir -p ~/akun/
 mkdir -p ~/.ssh/
 touch ~/akun/ssl.conf
-host2="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | cut -d: -f1 | sed 's/ //g')" 
-route del $host2 gw 192.168.8.1 metric 4
 read -p "Masukkan host/ip" host
 read -p "Masukkan port" port
 read -p "Masukkan bug" bug
