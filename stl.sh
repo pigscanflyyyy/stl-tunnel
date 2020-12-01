@@ -1,5 +1,7 @@
 #!/bin/bash
 #stl (Wegare)
+ip tuntap add dev tun0 mode tun
+ifconfig tun0 10.0.0.1 netmask 255.255.255.0
 clear
 echo "Inject SSL by wegare"
 echo "1. Sett Profile"
