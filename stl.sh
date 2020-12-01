@@ -64,7 +64,7 @@ gproxy stop
 killall stunnel
 killall sshpass
 route del 8.8.8.8 gw $route metric 5
-route add 8.8.4.4 gw $route metric 5
+route del 8.8.4.4 gw $route metric 5
 route del $host gw $route metric 5
 route del default gw 10.0.0.2 metric 6
 #killall dnsmasq
