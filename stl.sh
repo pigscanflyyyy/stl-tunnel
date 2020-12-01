@@ -1,7 +1,5 @@
 #!/bin/bash
 #stl (Wegare)
-ip tuntap add dev tun0 mode tun
-ifconfig tun0 10.0.0.1 netmask 255.255.255.0
 clear
 echo "Inject SSL by wegare"
 echo "1. Sett Profile"
@@ -46,6 +44,9 @@ cek="$(ls ~/.ssh/ | grep -i know | cut -d_ -f1)"
 if [ "$cek" = "known" ]; then
 rm -f ~/.ssh/known*
 fi
+ip tuntap add dev tun0 mode tun
+ifconfig tun0 10.0.0.1 netmask 255.255.255.0
+clear
 pass="$(cat ~/.ssh/config | grep -i pass | cut -d= -f2)" 
 udp="$(cat ~/.ssh/config | grep -i udpgw | cut -d= -f2)" 
 host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
@@ -69,8 +70,9 @@ route del 1.1.1.1 gw $route metric 4
 route del 1.0.0.1 gw $route metric 4
 route del $host gw $route metric 4
 route del default gw 10.0.0.2 metric 6
-#killall dnsmasq
-#/etc/init.d/dnsmasq start > /dev/null
+ip link delete tun0
+killall dnsmasq
+/etc/init.d/dnsmasq start > /dev/null
 echo "Stop Suksess"
 sleep 2
 clear
