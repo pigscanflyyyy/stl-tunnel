@@ -2,14 +2,12 @@
 #stl (Wegare)
 wget -O ~/badvpn.ipk "https://github.com/wegare123/stl-tunnel/blob/main/badvpn_1.999.130-1_aarch64_cortex-a53.ipk?raw=true"
 wget -O /usr/bin/stl "https://raw.githubusercontent.com/wegare123/stl-tunnel/main/stl.sh"
-opkg update && opkg install openssh-client && opkg install stunnel && opkg install redsocks && opkg install badvpn.ipk
+opkg update && opkg install ip-full && opkg install openssh-client && opkg install stunnel && opkg install redsocks && opkg install badvpn.ipk
 /etc/init.d/stunnel disable
 /etc/init.d/redsocks disable
-/etc/init.d/stunnel stop
+killall stunnel
 /etc/init.d/redsocks stop
 sed -i 's/exit 0/ /g' /etc/rc.local
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
-sed -i '$ i\echo "nameserver 8.8.8.8" > /etc/resolv.conf' /etc/rc.local
 echo "ip tuntap add dev tun0 mode tun
 ifconfig tun0 10.0.0.1 netmask 255.255.255.0 up
 exit 0" >> /etc/rc.local

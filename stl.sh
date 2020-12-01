@@ -11,7 +11,7 @@ echo "e. exit"
 read -p "(default tools: 2) : " tools
 [ -z "${tools}" ] && tools="2"
 if [ "$tools" = "1" ]; then
-host2="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | cut -d: -f1 | sed 's/ //g')" 
+host2="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
 route2="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 route del $host2 gw $route2 metric 4
 read -p "Masukkan host/ip : " host
@@ -43,6 +43,10 @@ sleep 2
 clear
 stl
 elif [ "${tools}" = "2" ]; then
+cek="$(ls ~/.ssh/ | grep -i know | cut -d_ -f1)" 
+if [ "$cek" = "known" ]; then
+rm -f ~/.ssh/known*
+fi
 pass="$(cat ~/.ssh/config | grep -i pass | cut -d= -f2)" 
 udp="$(cat ~/.ssh/config | grep -i udpgw | cut -d= -f2)" 
 host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
@@ -60,7 +64,8 @@ route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')"
 killall badvpn-tun2socks
 gproxy stop
 killall stunnel
-killall ssh
+killall sshpass
+route del 8.8.8.8 gw $route metric 4
 route del $host gw $route metric 4
 #killall dnsmasq
 #/etc/init.d/dnsmasq start > /dev/null
@@ -70,10 +75,6 @@ clear
 stl
 elif [ "${tools}" = "4" ]; then
 sed -i 's/exit 0/ /g' /etc/rc.local
-host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | cut -d: -f1 | sed 's/ //g')" 
-pass="$(cat ~/.ssh/config | grep -i pass | cut -d= -f2)" 
-udp="$(cat ~/.ssh/config | grep -i udpgw | cut -d= -f2)" 
-route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 echo "# BEGIN STL
 printf '2' | stl
 # END STL
