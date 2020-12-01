@@ -11,9 +11,6 @@ echo "e. exit"
 read -p "(default tools: 2) : " tools
 [ -z "${tools}" ] && tools="2"
 if [ "$tools" = "1" ]; then
-host2="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
-route2="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
-route del $host2 gw $route2 metric 4
 read -p "Masukkan host/ip : " host
 read -p "Masukkan port : " port
 read -p "Masukkan bug : " bug
@@ -75,6 +72,8 @@ sleep 2
 clear
 stl
 elif [ "${tools}" = "4" ]; then
+echo "belum tersedia"
+exit
 host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 sed -i 's/exit 0/ /g' /etc/rc.local
@@ -90,6 +89,8 @@ sleep 2
 clear
 stl
 elif [ "${tools}" = "5" ]; then
+echo "belum tersedia"
+exit
 sed -i "/^# BEGIN STL/,/^# END STL/d" /etc/rc.local
 echo "Disable Suksess"
 sleep 2
