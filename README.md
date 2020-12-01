@@ -1,2 +1,2 @@
 # stl-tunnel
-inject linux
+inject ssh ssl linux
