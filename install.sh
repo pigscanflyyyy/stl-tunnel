@@ -64,6 +64,7 @@ esac
     echo "Internet Connected"' > /usr/bin/gproxy
 chmod +x /usr/bin/gproxy
 rm -r ~/badvpn.ipk
+rm -r ~/install.sh
 echo "install selesai\n"
 echo "untuk memulai tools silahkan jalankan perintah 'stl'"
 
