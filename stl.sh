@@ -53,7 +53,7 @@ host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cu
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 stunnel ~/akun/ssl.conf
 sshpass -p $pass ssh -N ssl1 &
-sleep 40
+sleep 35
 badvpn-tun2socks --tundev tun0 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --udpgw-remote-server-addr 127.0.0.1:$udp &
 route add 8.8.8.8 gw $route metric 4
 route add $host gw $route metric 4
@@ -67,6 +67,7 @@ killall stunnel
 killall sshpass
 route del 8.8.8.8 gw $route metric 4
 route del $host gw $route metric 4
+route del default gw 10.0.0.2 metric 6
 #killall dnsmasq
 #/etc/init.d/dnsmasq start > /dev/null
 echo "Stop Suksess"
@@ -74,8 +75,13 @@ sleep 2
 clear
 stl
 elif [ "${tools}" = "4" ]; then
+host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
+route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 sed -i 's/exit 0/ /g' /etc/rc.local
 echo "# BEGIN STL
+route del 8.8.8.8 gw $route metric 4
+route del $host gw $route metric 4
+route del default gw 10.0.0.2 metric 6
 printf '2' | stl
 # END STL
 exit 0" >> /etc/rc.local
