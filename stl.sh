@@ -8,12 +8,12 @@ echo "3. Stop Inject"
 echo "4. Enable booting"
 echo "5. Disable booting"
 echo "e. exit"
-read -p "(default tools: 2):" tools
+read -p "(default tools: 2) : " tools
 [ -z "${tools}" ] && tools="2"
 if [ "$tools" = "1" ]; then
-mkdir -p ~/akun/
-mkdir -p ~/.ssh/
-touch ~/akun/ssl.conf
+host2="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | cut -d: -f1 | sed 's/ //g')" 
+route2="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
+route del $host2 gw $route2 metric 4
 read -p "Masukkan host/ip : " host
 read -p "Masukkan port : " port
 read -p "Masukkan bug : " bug
@@ -38,25 +38,34 @@ Host ssl1
     HostName 127.0.0.1
     Port 69
     User $user" > ~/.ssh/config
-route="$(route -n | grep -i 0.0.0.0 | head -n1 | awk '{print $2}')" 
-ip tuntap add dev tun0 mode tun
-ifconfig tun0 10.0.0.1 netmask 255.255.255.0 up
-route add $host gw $route metric 4
-route add default gw 10.0.0.2 metric 6
 echo "Sett Profile Sukses"
-sleep 0.8
+sleep 2
 clear
 stl
 elif [ "${tools}" = "2" ]; then
 pass="$(cat ~/.ssh/config | grep -i pass | cut -d= -f2)" 
 udp="$(cat ~/.ssh/config | grep -i udpgw | cut -d= -f2)" 
+host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
+route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 stunnel ~/akun/ssl.conf
 sshpass -p $pass ssh -N ssl1 &
+sleep 40
 badvpn-tun2socks --tundev tun0 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --udpgw-remote-server-addr 127.0.0.1:$udp &
+route add 8.8.8.8 gw $route metric 4
+route add $host gw $route metric 4
+route add default gw 10.0.0.2 metric 6
 elif [ "${tools}" = "3" ]; then
-gproxy stop && killall stunnel && killall ssh
+host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
+route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
+killall badvpn-tun2socks
+gproxy stop
+killall stunnel
+killall ssh
+route del $host gw $route metric 4
+#killall dnsmasq
+#/etc/init.d/dnsmasq start > /dev/null
 echo "Stop Suksess"
-sleep 0.8
+sleep 2
 clear
 stl
 elif [ "${tools}" = "4" ]; then
@@ -64,24 +73,19 @@ sed -i 's/exit 0/ /g' /etc/rc.local
 host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | cut -d: -f1 | sed 's/ //g')" 
 pass="$(cat ~/.ssh/config | grep -i pass | cut -d= -f2)" 
 udp="$(cat ~/.ssh/config | grep -i udpgw | cut -d= -f2)" 
+route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 echo "# BEGIN STL
-ip tuntap add dev tun0 mode tun
-ifconfig tun0 10.0.0.1 netmask 255.255.255.0 up
-route add $host gw 192.168.8.1 metric 4
-route add default gw 10.0.0.2 metric 6
-stunnel ~/akun/ssl.conf
-sshpass -p $pass ssh -N ssl1 &
-badvpn-tun2socks --tundev tun0 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --udpgw-remote-server-addr 127.0.0.1:$udp &
+printf '2' | stl
 # END STL
 exit 0" >> /etc/rc.local
 echo "Enable Suksess"
-sleep 0.8
+sleep 2
 clear
 stl
 elif [ "${tools}" = "5" ]; then
 sed -i "/^# BEGIN STL/,/^# END STL/d" /etc/rc.local
 echo "Disable Suksess"
-sleep 0.8
+sleep 2
 clear
 stl
 elif [ "${tools}" = "e" ]; then

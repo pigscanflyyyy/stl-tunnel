@@ -7,6 +7,12 @@ opkg update && opkg install openssh-client && opkg install stunnel && opkg insta
 /etc/init.d/redsocks disable
 /etc/init.d/stunnel stop
 /etc/init.d/redsocks stop
+sed -i 's/exit 0/ /g' /etc/rc.local
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
+sed -i '$ i\echo "nameserver 8.8.8.8" > /etc/resolv.conf' /etc/rc.local
+echo "ip tuntap add dev tun0 mode tun
+ifconfig tun0 10.0.0.1 netmask 255.255.255.0 up
+exit 0" >> /etc/rc.local
 echo "base {
     log_debug = off;
     log_info = on;
@@ -68,6 +74,9 @@ chmod +x /usr/bin/gproxy
 chmod +x /usr/bin/stl
 rm -r ~/badvpn.ipk
 rm -r ~/install.sh
+mkdir -p ~/akun/
+mkdir -p ~/.ssh/
+touch ~/akun/ssl.conf
 echo "install selesai"
 echo "untuk memulai tools silahkan jalankan perintah 'stl'"
 
