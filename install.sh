@@ -75,6 +75,7 @@ rm -r ~/install.sh
 mkdir -p ~/akun/
 mkdir -p ~/.ssh/
 touch ~/akun/ssl.conf
+clear
 echo "install selesai"
 echo "untuk memulai tools silahkan jalankan perintah 'stl'"
 
