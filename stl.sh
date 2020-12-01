@@ -52,8 +52,9 @@ stunnel ~/akun/ssl.conf
 sshpass -p $pass ssh -N ssl1 &
 sleep 35
 badvpn-tun2socks --tundev tun0 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --udpgw-remote-server-addr 127.0.0.1:$udp &
-route add 8.8.8.8 gw $route metric 4
-route add $host gw $route metric 4
+route add 8.8.8.8 gw $route metric 5
+route add 8.8.4.4 gw $route metric 5
+route add $host gw $route metric 5
 route add default gw 10.0.0.2 metric 6
 elif [ "${tools}" = "3" ]; then
 host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
@@ -62,8 +63,9 @@ killall badvpn-tun2socks
 gproxy stop
 killall stunnel
 killall sshpass
-route del 8.8.8.8 gw $route metric 4
-route del $host gw $route metric 4
+route del 8.8.8.8 gw $route metric 5
+route add 8.8.4.4 gw $route metric 5
+route del $host gw $route metric 5
 route del default gw 10.0.0.2 metric 6
 #killall dnsmasq
 #/etc/init.d/dnsmasq start > /dev/null
