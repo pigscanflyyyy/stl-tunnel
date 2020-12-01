@@ -14,12 +14,12 @@ if [ "$tools" = "1" ]; then
 mkdir -p ~/akun/
 mkdir -p ~/.ssh/
 touch ~/akun/ssl.conf
-read -p "Masukkan host/ip" host
-read -p "Masukkan port" port
-read -p "Masukkan bug" bug
-read -p "Masukkan port udpgw" udp
-read -p "Masukkan user" user
-read -p "Masukkan pass" pass
+read -p "Masukkan host/ip : " host
+read -p "Masukkan port : " port
+read -p "Masukkan bug : " bug
+read -p "Masukkan port udpgw : " udp
+read -p "Masukkan user : " user
+read -p "Masukkan pass : " pass
 echo "[SSH]
 client = yes
 accept = localhost:69
@@ -49,7 +49,7 @@ stl
 elif [ "${tools}" = "2" ]; then
 pass="$(cat ~/.ssh/config | grep -i pass | cut -d= -f2)" 
 udp="$(cat ~/.ssh/config | grep -i udpgw | cut -d= -f2)" 
-stunnel ssl.conf
+stunnel ~/akun/ssl.conf
 sshpass -p $pass ssh -N ssl1 &
 badvpn-tun2socks --tundev tun0 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --udpgw-remote-server-addr 127.0.0.1:$udp &
 elif [ "${tools}" = "3" ]; then
@@ -68,7 +68,7 @@ ip tuntap add dev tun0 mode tun
 ifconfig tun0 10.0.0.1 netmask 255.255.255.0 up
 route add $host gw 192.168.8.1 metric 4
 route add default gw 10.0.0.2 metric 6
-stunnel ssl.conf
+stunnel ~/akun/ssl.conf
 sshpass -p $pass ssh -N ssl1 &
 badvpn-tun2socks --tundev tun0 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --udpgw-remote-server-addr 127.0.0.1:$udp &
 # END STL

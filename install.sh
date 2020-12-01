@@ -5,6 +5,8 @@ wget -O /usr/bin/stl "https://raw.githubusercontent.com/wegare123/stl-tunnel/mai
 opkg update && opkg install openssh-client && opkg install stunnel && opkg install redsocks && opkg install badvpn.ipk
 /etc/init.d/stunnel disable
 /etc/init.d/redsocks disable
+/etc/init.d/stunnel stop
+/etc/init.d/redsocks stop
 echo "base {
     log_debug = off;
     log_info = on;
@@ -63,9 +65,10 @@ esac
     redsocks -c /etc/redsocks.conf > /dev/null &
     echo "Internet Connected"' > /usr/bin/gproxy
 chmod +x /usr/bin/gproxy
+chmod +x /usr/bin/stl
 rm -r ~/badvpn.ipk
 rm -r ~/install.sh
-echo "install selesai\n"
+echo "install selesai"
 echo "untuk memulai tools silahkan jalankan perintah 'stl'"
 
 				
