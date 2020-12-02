@@ -63,6 +63,7 @@ elif [ "${tools}" = "3" ]; then
 host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 killall badvpn-tun2socks
+killall screen
 gproxy stop
 killall stunnel
 killall sshpass
