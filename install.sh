@@ -67,6 +67,7 @@ esac
     echo "Internet Connected"' > /usr/bin/gproxy
 chmod +x /usr/bin/gproxy
 chmod +x /usr/bin/stl
+chmod +x /usr/bin/stl-start
 rm -r ~/badvpn.ipk
 rm -r ~/install.sh
 mkdir -p ~/akun/

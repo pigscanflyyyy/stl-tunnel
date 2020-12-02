@@ -1,6 +1,6 @@
 #!/bin/bash
 #stl (Wegare)
-sleep 15
+sleep 20
 print "\n" | stl
 
 
