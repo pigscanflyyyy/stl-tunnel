@@ -79,15 +79,11 @@ sleep 2
 clear
 stl
 elif [ "${tools}" = "4" ]; then
-echo "belum tersedia"
-exit
 host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 sed -i 's/exit 0/ /g' /etc/rc.local
 echo "# BEGIN STL
-route del 8.8.8.8 gw $route metric 4
-route del $host gw $route metric 4
-route del default gw 10.0.0.2 metric 6
+sleep 10
 printf '2' | stl
 # END STL
 exit 0" >> /etc/rc.local
@@ -96,8 +92,6 @@ sleep 2
 clear
 stl
 elif [ "${tools}" = "5" ]; then
-echo "belum tersedia"
-exit
 sed -i "/^# BEGIN STL/,/^# END STL/d" /etc/rc.local
 echo "Disable Suksess"
 sleep 2

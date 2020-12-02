@@ -5,8 +5,8 @@ wget -O /usr/bin/stl "https://raw.githubusercontent.com/wegare123/stl-tunnel/mai
 opkg update && opkg install ip-full && opkg install openssh-client && opkg install stunnel && opkg install redsocks && opkg install badvpn.ipk
 /etc/init.d/stunnel disable
 /etc/init.d/redsocks disable
+killall redsocks
 killall stunnel
-/etc/init.d/redsocks stop
 echo "base {
     log_debug = off;
     log_info = on;
