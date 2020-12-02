@@ -7,12 +7,6 @@ opkg update && opkg install ip-full && opkg install openssh-client && opkg insta
 /etc/init.d/redsocks disable
 killall stunnel
 /etc/init.d/redsocks stop
-sed -i 's/exit 0/ /g' /etc/rc.local
-ip tuntap add dev tun0 mode tun
-ifconfig tun0 10.0.0.1 netmask 255.255.255.0
-echo "ip tuntap add dev tun0 mode tun
-ifconfig tun0 10.0.0.1 netmask 255.255.255.0
-exit 0" >> /etc/rc.local
 echo "base {
     log_debug = off;
     log_info = on;
