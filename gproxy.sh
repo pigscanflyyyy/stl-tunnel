@@ -1,8 +1,9 @@
 #!/bin/bash
 #stl (Wegare)
-udp="$(cat ~/.ssh/config | grep -i udpgw | cut -d= -f2)" 
-host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
+udp="$(cat /root/.ssh/config | grep -i udpgw | cut -d= -f2)" 
+host="$(cat /root/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
+echo ""
 case $1 in
 "stop")
 	iptables -t nat -F REDSOCKS
@@ -13,7 +14,6 @@ case $1 in
 	exit
 ;;
 esac
-    echo ""
     iptables -t nat -N REDSOCKS
     #Ignore LANs and some other reserved addresses.
     iptables -t nat -A REDSOCKS -d 0.0.0.0/8 -j RETURN

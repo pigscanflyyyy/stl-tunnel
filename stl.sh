@@ -21,7 +21,7 @@ echo "[SSH]
 client = yes
 accept = localhost:69
 connect = $host:$port
-sni = $bug" > ~/akun/ssl.conf
+sni = $bug" > /root/akun/ssl.conf
 echo "#udpgw=$udp
 #pass=$pass
 Host ssl*
@@ -34,24 +34,24 @@ Host ssl*
 Host ssl1
     HostName 127.0.0.1
     Port 69
-    User $user" > ~/.ssh/config
+    User $user" > /root/.ssh/config
 echo "Sett Profile Sukses"
 sleep 2
 clear
 stl
 elif [ "${tools}" = "2" ]; then
-cek="$(ls ~/.ssh/ | grep -i know | cut -d_ -f1)" 
+cek="$(ls /root/.ssh/ | grep -i know | cut -d_ -f1)" 
 if [ "$cek" = "known" ]; then
-rm -f ~/.ssh/known*
+rm -f /root/.ssh/known*
 fi
 ip tuntap add dev tun1 mode tun
 ifconfig tun1 10.0.0.1 netmask 255.255.255.0
 clear
-pass="$(cat ~/.ssh/config | grep -i pass | cut -d= -f2)" 
-stunnel ~/akun/ssl.conf
+pass="$(cat /root/.ssh/config | grep -i pass | cut -d= -f2)" 
+stunnel /root/akun/ssl.conf
 sshpass -p $pass ssh -N ssl1 &
 elif [ "${tools}" = "3" ]; then
-host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
+host="$(cat /root/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 killall screen
 gproxy stop
@@ -69,7 +69,7 @@ sleep 2
 clear
 stl
 elif [ "${tools}" = "4" ]; then
-host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
+host="$(cat /root/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 sed -i 's/exit 0/ /g' /etc/rc.local
 echo "# BEGIN STL
