@@ -62,11 +62,10 @@ route add default gw 10.0.0.2 metric 6
 elif [ "${tools}" = "3" ]; then
 host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
-killall badvpn-tun2socks
 killall screen
 gproxy stop
 killall stunnel
-killall sshpass
+killall ssh
 route del 1.1.1.1 gw $route metric 4
 route del 1.0.0.1 gw $route metric 4
 route del $host gw $route metric 4
