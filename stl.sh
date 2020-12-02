@@ -44,8 +44,8 @@ cek="$(ls ~/.ssh/ | grep -i know | cut -d_ -f1)"
 if [ "$cek" = "known" ]; then
 rm -f ~/.ssh/known*
 fi
-ip tuntap add dev tun0 mode tun
-ifconfig tun0 10.0.0.1 netmask 255.255.255.0
+ip tuntap add dev tun1 mode tun
+ifconfig tun1 10.0.0.1 netmask 255.255.255.0
 clear
 pass="$(cat ~/.ssh/config | grep -i pass | cut -d= -f2)" 
 udp="$(cat ~/.ssh/config | grep -i udpgw | cut -d= -f2)" 
@@ -54,7 +54,7 @@ route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')"
 stunnel ~/akun/ssl.conf
 sshpass -p $pass ssh -N ssl1 &
 sleep 35
-screen -d -m badvpn-tun2socks --tundev tun0 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --udpgw-remote-server-addr 127.0.0.1:$udp &
+screen -d -m badvpn-tun2socks --tundev tun1 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --udpgw-remote-server-addr 127.0.0.1:$udp &
 route add 1.1.1.1 gw $route metric 4
 route add 1.0.0.1 gw $route metric 4
 route add $host gw $route metric 4
@@ -71,7 +71,7 @@ route del 1.1.1.1 gw $route metric 4
 route del 1.0.0.1 gw $route metric 4
 route del $host gw $route metric 4
 route del default gw 10.0.0.2 metric 6
-ip link delete tun0
+ip link delete tun1
 killall dnsmasq
 /etc/init.d/dnsmasq start > /dev/null
 sleep 2
