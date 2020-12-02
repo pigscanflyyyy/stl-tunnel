@@ -83,8 +83,7 @@ host="$(cat ~/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cu
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 sed -i 's/exit 0/ /g' /etc/rc.local
 echo "# BEGIN STL
-sleep 10
-printf '2' | stl
+stl-start
 # END STL
 exit 0" >> /etc/rc.local
 echo "Enable Suksess"
