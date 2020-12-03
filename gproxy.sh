@@ -27,18 +27,19 @@ esac
     iptables -t nat -A REDSOCKS -d 224.0.0.0/4 -j RETURN
     iptables -t nat -A REDSOCKS -d 240.0.0.0/4 -j RETURN
     iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 12345
-    iptables -t nat -I OUTPUT -p tcp -j REDSOCKSS
+    iptables -t nat -I OUTPUT -p tcp -j REDSOCKS
     iptables -t nat -I PREROUTING -p tcp -s 10.0.0.2 -j REDSOCKS
     redsocks -c /etc/redsocks.conf > /dev/null &
     sleep 1
     screen -d -m badvpn-tun2socks --tundev tun1 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --udpgw-remote-server-addr 127.0.0.1:$udp &
-    route add 1.1.1.1 gw $route metric 4
-    route add 1.0.0.1 gw $route metric 4
+    route add 8.8.8.8 gw $route metric 4
+    route add 8.8.4.4 gw $route metric 4
     route add $host gw $route metric 4
     route add default gw 10.0.0.2 metric 6
     sleep 10
     echo "Internet Connected"
-    sed -i '/^# BEGIN STL/,/^# END STL/d' /etc/crontabs/root > /dev/null 2>&1 &
+    sed -i '/^# BEGIN STL/,/^# END STL/d' /etc/crontabs/root
     /etc/init.d/cron restart
+
 
 
