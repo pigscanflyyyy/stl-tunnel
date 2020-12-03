@@ -54,9 +54,6 @@ pass="$(cat /root/.ssh/config | grep -i pass | cut -d= -f2)"
 stunnel /root/akun/ssl.conf
 sleep 1
 sshpass -p $pass ssh -N ssl1 &
-sleep 1
-gproxy %h
-sleep 1
 elif [ "${tools}" = "3" ]; then
 host="$(cat /root/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
