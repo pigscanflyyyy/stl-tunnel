@@ -27,9 +27,8 @@ esac
     iptables -t nat -A REDSOCKS -d 224.0.0.0/4 -j RETURN
     iptables -t nat -A REDSOCKS -d 240.0.0.0/4 -j RETURN
     iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 12345
-    iptables -t nat -A PREROUTING -d 192.168.0.0/16 -j RETURN
-    iptables -t nat -A PREROUTING -p tcp -j REDIRECT --to-ports 12345
-    iptables -t nat -A OUTPUT -j REDSOCKS
+    iptables -t nat -I OUTPUT -p tcp -j REDSOCKSS
+    iptables -t nat -I PREROUTING -p tcp -s 10.0.0.2 -j REDSOCKS
     redsocks -c /etc/redsocks.conf > /dev/null &
     sleep 1
     screen -d -m badvpn-tun2socks --tundev tun1 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --udpgw-remote-server-addr 127.0.0.1:$udp &
@@ -42,5 +41,12 @@ esac
     sed -i '/^# BEGIN STL/,/^# END STL/d' /etc/crontabs/root > /dev/null 2>&1 &
     /etc/init.d/cron restart
 
+
+iptables -t nat -A OUTPUT -p tcp --dport 443 -j REDSOCKS
+iptables -t nat -A OUTPUT -p tcp --dport 80 -j REDSOCKS
+
+iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDSOCKS
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDSOCKS
+iptables -t nat -A PREROUTING -p tcp --dport 1080 -j REDSOCKS
 
 
