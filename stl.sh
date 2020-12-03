@@ -61,8 +61,8 @@ killall screen
 gproxy stop
 killall ssh
 killall stunnel
-route del 1.1.1.1 gw $route metric 4
-route del 1.0.0.1 gw $route metric 4
+route del 8.8.8.8 gw $route metric 4
+route del 8.8.4.4 gw $route metric 4
 route del $host gw $route metric 4
 ip link delete tun1
 killall dnsmasq
