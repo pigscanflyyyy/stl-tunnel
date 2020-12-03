@@ -38,7 +38,7 @@ esac
     route add default gw 10.0.0.2 metric 6
     sleep 10
     echo "Internet Connected"
-    sed -i '/^# BEGIN STL/,/^# END STL/d' /etc/crontabs/root > /dev/null 2>&1 &
+    sed -i '/^# BEGIN AUTORESTARTSTL/,/^# END AUTORESTARTSTL/d' /etc/crontabs/root > /dev/null 2>&1 &
     /etc/init.d/cron restart
 
 
