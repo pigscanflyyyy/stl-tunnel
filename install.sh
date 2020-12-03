@@ -15,6 +15,7 @@ chmod +x /usr/bin/gproxy
 chmod +x /usr/bin/badvpn
 chmod +x /usr/bin/stl
 chmod +x /usr/bin/stl-start
+rm -rf ~/akun
 rm -r ~/badvpn.ipk
 rm -r ~/install.sh
 mkdir -p ~/akun/

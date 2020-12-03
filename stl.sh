@@ -26,7 +26,6 @@ echo "#udpgw=$udp
 #pass=$pass
 Host ssl*
     PermitLocalCommand yes
-    #LocalCommand gproxy %h
     DynamicForward 1080
     StrictHostKeyChecking no
     ServerAliveInterval 10
@@ -52,8 +51,11 @@ host="$(cat /root/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' 
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 pass="$(cat /root/.ssh/config | grep -i pass | cut -d= -f2)" 
 stunnel /root/akun/ssl.conf
+sleep 1
 sshpass -p $pass ssh -N ssl1 &
+sleep 1
 gproxy
+sleep 1
 badvpn
 sleep 5
 elif [ "${tools}" = "3" ]; then
