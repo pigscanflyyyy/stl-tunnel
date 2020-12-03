@@ -39,7 +39,7 @@ esac
     route add default gw 10.0.0.2 metric 6
     sleep 10
     echo "Internet Connected"
-    
+    sed -i '/^# BEGIN STL/,/^# END STL/d' /etc/crontabs/root
 
 
 

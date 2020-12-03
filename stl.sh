@@ -59,8 +59,8 @@ host="$(cat /root/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' 
 route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
 killall screen
 gproxy stop
-killall stunnel
 killall ssh
+killall stunnel
 route del 1.1.1.1 gw $route metric 4
 route del 1.0.0.1 gw $route metric 4
 route del $host gw $route metric 4
@@ -73,19 +73,20 @@ sleep 2
 clear
 stl
 elif [ "${tools}" = "4" ]; then
-echo "Waktu booting dalam detik"
-read -p "(default booting: 120 detik) : " boot
-[ -z "${boot}" ] && boot="120"
 echo "#!/bin/bash
 #stl (Wegare)
-sleep $boot
-(printf '3\n'; sleep 30; printf '\n') | stl" > /usr/bin/stl-start
-chmod +x /usr/bin/stl-start
+cat <<EOF>> /etc/crontabs/root
+# BEGIN STL
+*/2 * * * * (printf '3\n'; sleep 10; printf '\n') | stl
+# END STL
+EOF
+" > /usr/bin/autostart-stl
+chmod +x /usr/bin/autostart-stl
+
 sed -i 's/exit 0/ /g' /etc/rc.local
 echo "# BEGIN STL
-stl-start
-# END STL
-exit 0" >> /etc/rc.local
+autostart-stl
+# END STL" >> /etc/rc.local
 echo "Enable Suksess"
 sleep 2
 clear
