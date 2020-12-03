@@ -72,8 +72,14 @@ sleep 2
 clear
 stl
 elif [ "${tools}" = "4" ]; then
-host="$(cat /root/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
-route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')" 
+echo "Waktu booting dalam detik"
+read -p "(default booting: 90 detik) : " boot
+[ -z "${boot}" ] && boot="90"
+echo "#!/bin/bash
+#stl (Wegare)
+sleep $boot
+(printf '3\n'; sleep 20; printf '\n') | stl" > /usr/bin/stl-start
+chmod +x /usr/bin/stl-start
 sed -i 's/exit 0/ /g' /etc/rc.local
 echo "# BEGIN STL
 stl-start
