@@ -26,7 +26,7 @@ echo "#udpgw=$udp
 #pass=$pass
 Host ssl*
     PermitLocalCommand yes
-    LocalCommand gproxy %h
+    #LocalCommand gproxy %h
     DynamicForward 1080
     StrictHostKeyChecking no
     ServerAliveInterval 10
@@ -53,12 +53,8 @@ route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')"
 pass="$(cat /root/.ssh/config | grep -i pass | cut -d= -f2)" 
 stunnel /root/akun/ssl.conf
 sshpass -p $pass ssh -N ssl1 &
-sleep 40
-screen -d -m badvpn-tun2socks --tundev tun1 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --udpgw-remote-server-addr 127.0.0.1:$udp &
-route add 1.1.1.1 gw $route metric 4
-route add 1.0.0.1 gw $route metric 4
-route add $host gw $route metric 4
-route add default gw 10.0.0.2 metric 6
+gproxy
+badvpn
 sleep 5
 elif [ "${tools}" = "3" ]; then
 host="$(cat /root/akun/ssl.conf | grep -i connect | head -n1 | awk '{print $3}' | cut -d: -f1)" 
@@ -69,7 +65,6 @@ killall stunnel
 route del 1.1.1.1 gw $route metric 4
 route del 1.0.0.1 gw $route metric 4
 route del $host gw $route metric 4
-route del default gw 10.0.0.2 metric 6
 ip link delete tun1
 killall dnsmasq
 /etc/init.d/dnsmasq start > /dev/null

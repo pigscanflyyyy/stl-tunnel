@@ -24,7 +24,6 @@ esac
     iptables -t nat -A REDSOCKS -d 240.0.0.0/4 -j RETURN
     iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 12345
     iptables -t nat -A PREROUTING -d 192.168.0.0/16 -j RETURN
-    iptables -t nat -A PREROUTING -p tcp -j REDIRECT --to-ports 12345
     iptables -t nat -A OUTPUT -j REDSOCKS
     redsocks -c /etc/redsocks.conf > /dev/null &
     echo "Internet Connected"
