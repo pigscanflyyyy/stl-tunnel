@@ -14,6 +14,7 @@ case $1 in
 ;;
 esac
     echo ""
+    echo "is connecting to the internet"
     iptables -t nat -N REDSOCKS
     #Ignore LANs and some other reserved addresses.
     iptables -t nat -A REDSOCKS -d 0.0.0.0/8 -j RETURN
@@ -36,8 +37,9 @@ esac
     route add 1.0.0.1 gw $route metric 4
     route add $host gw $route metric 4
     route add default gw 10.0.0.2 metric 6
-    sleep 5
+    sleep 10
     echo "Internet Connected"
+    
 
 
 

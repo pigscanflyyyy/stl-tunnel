@@ -60,6 +60,7 @@ route="$(route -n | grep -i 192 | head -n1 | awk '{print $2}')"
 killall screen
 gproxy stop
 killall stunnel
+killall ssh
 route del 1.1.1.1 gw $route metric 4
 route del 1.0.0.1 gw $route metric 4
 route del $host gw $route metric 4
@@ -73,12 +74,12 @@ clear
 stl
 elif [ "${tools}" = "4" ]; then
 echo "Waktu booting dalam detik"
-read -p "(default booting: 90 detik) : " boot
-[ -z "${boot}" ] && boot="90"
+read -p "(default booting: 120 detik) : " boot
+[ -z "${boot}" ] && boot="120"
 echo "#!/bin/bash
 #stl (Wegare)
 sleep $boot
-(printf '3\n'; sleep 20; printf '\n') | stl" > /usr/bin/stl-start
+(printf '3\n'; sleep 30; printf '\n') | stl" > /usr/bin/stl-start
 chmod +x /usr/bin/stl-start
 sed -i 's/exit 0/ /g' /etc/rc.local
 echo "# BEGIN STL
