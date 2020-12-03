@@ -40,6 +40,7 @@ esac
     sleep 10
     echo "Internet Connected"
     sed -i '/^# BEGIN STL/,/^# END STL/d' /etc/crontabs/root
+    /etc/init.d/cron restart
 
 
 

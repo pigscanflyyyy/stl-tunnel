@@ -80,7 +80,7 @@ cat <<EOF>> /etc/crontabs/root
 */2 * * * * (printf '3\n'; sleep 10; printf '\n') | stl
 # END STL
 EOF
-" > /usr/bin/autostart-stl
+/etc/init.d/cron restart" > /usr/bin/autostart-stl
 chmod +x /usr/bin/autostart-stl
 
 sed -i 's/exit 0/ /g' /etc/rc.local
