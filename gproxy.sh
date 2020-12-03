@@ -42,11 +42,3 @@ esac
     /etc/init.d/cron restart
 
 
-iptables -t nat -A OUTPUT -p tcp --dport 443 -j REDSOCKS
-iptables -t nat -A OUTPUT -p tcp --dport 80 -j REDSOCKS
-
-iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDSOCKS
-iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDSOCKS
-iptables -t nat -A PREROUTING -p tcp --dport 1080 -j REDSOCKS
-
-
