@@ -114,9 +114,9 @@ EOF
 
 
 sed -i 's/exit 0/ /g' /etc/rc.local
-echo "# BEGIN STL
+echo "# BEGIN AUTORESTARTSTL
 autostart-stl
-# END STL" >> /etc/rc.local
+# END AUTORESTARTSTL" >> /etc/rc.local
 
 echo "Enable Suksess"
 sleep 2
